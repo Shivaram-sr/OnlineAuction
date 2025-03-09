@@ -30,8 +30,7 @@ exports.getAllProducts = async (req, res) => {
 
 exports.getProductById = async (req, res) => {
   try {
-    const { id } = req.params;
-    const product = await Product.findById(id).populate('seller', 'name email');
+    const product = await Product.findById(req.params.id);
     if (!product) return res.status(404).json({ message: 'Product not found' });
     res.json(product);
   } catch (error) {
@@ -39,4 +38,15 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-
+exports.getMyProducts = async (req, res) => {
+  try {
+    console.log('request received by controller')
+    console.log(req)
+    const userId = req.user._id;
+    console.log("userId:",userId)
+    const myProducts = await Product.find({ seller: userId });
+    res.json(myProducts);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};

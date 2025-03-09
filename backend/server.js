@@ -9,6 +9,8 @@ const authRoutes = require('./routes/authRoutes');
 const productRoutes = require('./routes/productRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const bidRoutes = require('./routes/bidRoutes');
 const errorHandler = require('./utils/errorHandler');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -20,13 +22,17 @@ app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 
+// Mount your routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use(errorHandler);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/bids', bidRoutes);
 
-// Create HTTP server and attach Socket.IO
+
+// Create an HTTP server and attach Socket.IO
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
@@ -34,8 +40,7 @@ const io = socketIo(server, {
     methods: ["GET", "POST"]
   }
 });
-
-// Store io in the app instance so controllers can use it
+// Save io instance to the app so controllers can access it
 app.set('io', io);
 
 server.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
