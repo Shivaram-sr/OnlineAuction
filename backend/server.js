@@ -10,7 +10,6 @@ const productRoutes = require('./routes/productRoutes');
 const bidRoutes = require('./routes/bidRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const dashboardRoutes = require('./routes/dashboardRoutes');
-const bidRoutes = require('./routes/bidRoutes');
 const errorHandler = require('./utils/errorHandler');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -29,7 +28,6 @@ app.use('/api/bids', bidRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use(errorHandler);
 app.use('/api/dashboard', dashboardRoutes);
-app.use('/api/bids', bidRoutes);
 
 
 // Create an HTTP server and attach Socket.IO
